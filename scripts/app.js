@@ -9,11 +9,14 @@ const scoreDisplay = document.querySelector('#score-display')
 
 // * Game Variables
 
-const width = 20
+const width = 19
 const gridCellCount = width * width
 const cells = []
 
-let playerPosition = 369
+let gameOn = false
+let playerPosition = 332
+let alienPosition = [24, 25, 26, 27, 28, 29, 30, 31, 32]
+let aliens = alienPosition.slice()
 
 // * Functions 
 
@@ -31,8 +34,16 @@ function addPlayer(position) {
   cells[position].classList.add('player')
 }
 
+function addAliens() {
+  aliens.forEach(alien => {
+    cells[alien].classList.add('alien')
+  })
+}
+
 function startGame() {
+  gameOn = true
   addPlayer(playerPosition)
+  addAliens(alienPosition)
 }
 
 function removePlayer() {
@@ -56,7 +67,11 @@ function handleKeyUp(e) {
     default:
       console.log('Invalid Key, do nothing')
   }
-  addPlayer(playerPosition)
+  if (gameOn) {
+    addPlayer(playerPosition)
+  } else {
+    console.log('game hasn\'t started yet')
+  }
 }
 
 

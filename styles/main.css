@@ -27,20 +27,19 @@ body {
   flex-wrap: wrap;
   height: 100%;
   justify-content: center;
-  height: 600px;
-  width: 600px;
+  height: 570px;
+  width: 570px;
 }
 
 .grid div {
   border: 1px solid lightgrey;
   flex-grow: 1;
-  height: 5%;
-  width: 5%;
+  height: 30px;
+  width: 30px;
 }
 
 .alien {
-  background-image: url('https://www.google.com/imgres?imgurl=https%3A%2F%2Fi.etsystatic.com%2F19608750%2Fr%2Fil%2F4974b0%2F2295285078%2Fil_fullxfull.2295285078_t1gb.jpg&imgrefurl=https%3A%2F%2Fwww.etsy.com%2Fuk%2Flisting%2F804469145%2Fspace-invaders-alien-ship-classic-retro&tbnid=ZI5uVfJlovxbQM&vet=12ahUKEwjqrK7m85L0AhUdBWMBHfQ_Aa0QMygBegUIARDTAQ..i&docid=1NTDJsFOBODTXM&w=1500&h=1500&q=space%20invader%20alien&ved=2ahUKEwjqrK7m85L0AhUdBWMBHfQ_Aa0QMygBegUIARDTAQ');
-  background-size: contain;
+  background-color: blue;
 }
 
 .player {
