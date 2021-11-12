@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+}
+
+.controls-wrapper {
+  height: 10vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.grid-wrapper {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  align-items: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  justify-content: center;
+  height: 600px;
+  width: 600px;
+}
+
+.grid div {
+  border: 1px solid lightgrey;
+  flex-grow: 1;
+  height: 5%;
+  width: 5%;
+}
+
+.alien {
+  background-image: url('https://www.google.com/imgres?imgurl=https%3A%2F%2Fi.etsystatic.com%2F19608750%2Fr%2Fil%2F4974b0%2F2295285078%2Fil_fullxfull.2295285078_t1gb.jpg&imgrefurl=https%3A%2F%2Fwww.etsy.com%2Fuk%2Flisting%2F804469145%2Fspace-invaders-alien-ship-classic-retro&tbnid=ZI5uVfJlovxbQM&vet=12ahUKEwjqrK7m85L0AhUdBWMBHfQ_Aa0QMygBegUIARDTAQ..i&docid=1NTDJsFOBODTXM&w=1500&h=1500&q=space%20invader%20alien&ved=2ahUKEwjqrK7m85L0AhUdBWMBHfQ_Aa0QMygBegUIARDTAQ');
+  background-size: contain;
+}
+
+.player {
+  background-color: red;
+}
