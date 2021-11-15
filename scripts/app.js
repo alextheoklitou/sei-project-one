@@ -15,8 +15,10 @@ const cells = []
 
 let gameOn = false
 let playerPosition = 332
-let alienPosition = [24, 25, 26, 27, 28, 29, 30, 31, 32]
+const alienPosition = [24, 25, 26, 27, 28, 29, 30, 31, 32, 43, 44, 45, 46, 47, 48, 49, 50, 51, 62, 63, 64, 65, 66, 67, 68, 69, 70]
 let aliens = alienPosition.slice()
+let alienMoveTracker = 5
+let aliensMovingRight = true
 
 // * Functions 
 
@@ -28,10 +30,13 @@ function createGrid() {
     grid.appendChild(cell)
   }
 }
-createGrid()
 
 function addPlayer(position) {
   cells[position].classList.add('player')
+}
+
+function removePlayer() {
+  cells[playerPosition].classList.remove('player')
 }
 
 function addAliens() {
@@ -40,16 +45,41 @@ function addAliens() {
   })
 }
 
+function removeAliens() {
+  aliens.forEach(alien => {
+    cells[alien].classList.remove('alien')
+  })
+}
+
+function moveAliens () {
+  timer = setInterval(() => {
+    removeAliens()
+    if (alienMoveTracker < 10) {
+      if (aliensMovingRight) {
+        aliens = aliens.map(alien => alien + 1)
+      } else {
+        aliens = aliens.map(alien => alien - 1)
+      }
+      alienMoveTracker++
+    } else if (alienMoveTracker === 10) {
+      alienMoveTracker = 0
+      aliens = aliens.map(alien => alien + 19)
+      aliensMovingRight = !aliensMovingRight
+    }
+    addAliens()
+  }, 500)
+}
+
+// * Start Game
+
 function startGame() {
   gameOn = true
   addPlayer(playerPosition)
   addAliens(alienPosition)
+  moveAliens()
 }
 
-function removePlayer() {
-  cells[playerPosition].classList.remove('player')
-}
-
+// * Player Movement
 function handleKeyUp(e) {
   const x = playerPosition % width
   removePlayer()
@@ -76,5 +106,6 @@ function handleKeyUp(e) {
 
 
 // * Events
+createGrid()
 start.addEventListener('click', startGame)
 document.addEventListener('keyup', handleKeyUp)
