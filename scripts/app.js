@@ -13,12 +13,16 @@ const width = 19
 const gridCellCount = width * width
 const cells = []
 
+
 let gameOn = false
 let playerPosition = 332
 const alienPosition = [24, 25, 26, 27, 28, 29, 30, 31, 32, 43, 44, 45, 46, 47, 48, 49, 50, 51, 62, 63, 64, 65, 66, 67, 68, 69, 70]
 let aliens = alienPosition.slice()
 let alienMoveTracker = 5
 let aliensMovingRight = true
+let score = 0
+let playerBulletMoving = null
+let aliensMoving = null
 
 // * Functions 
 
@@ -52,7 +56,7 @@ function removeAliens() {
 }
 
 function moveAliens () {
-  timer = setInterval(() => {
+  aliensMoving = window.setInterval(() => {
     removeAliens()
     if (alienMoveTracker < 10) {
       if (aliensMovingRight) {
@@ -67,7 +71,30 @@ function moveAliens () {
       aliensMovingRight = !aliensMovingRight
     }
     addAliens()
-  }, 500)
+  }, 800)
+}
+
+function playerShoot (e) {
+  if(e.keyCode === 32 && gameOn) {
+    let bulletPosition = playerPosition - 19
+    playerBulletMoving = window.setInterval(() => {
+      const y = Math.floor(bulletPosition / width)
+      if(y === 0) {
+        cells[bulletPosition].classList.remove('bullet')
+      } else if (cells[bulletPosition].classList.contains('alien')) {
+        cells[bulletPosition].classList.remove('alien', 'bullet')
+        const alienIndex = aliens.indexOf(bulletPosition)
+        aliens.splice(alienIndex, 1)
+        score = score + 100
+        console.log(score)
+        window.clearInterval(playerBulletMoving)
+      } else {
+        cells[bulletPosition].classList.remove('bullet')
+        bulletPosition = bulletPosition - 19
+        cells[bulletPosition].classList.add('bullet')
+      }
+    }, 100)
+  }
 }
 
 // * Start Game
@@ -109,3 +136,4 @@ function handleKeyUp(e) {
 createGrid()
 start.addEventListener('click', startGame)
 document.addEventListener('keyup', handleKeyUp)
+document.addEventListener('keyup', playerShoot)

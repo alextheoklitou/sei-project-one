@@ -45,3 +45,7 @@ body {
 .player {
   background-color: red;
 }
+
+.bullet {
+  background-color: yellow;
+}
