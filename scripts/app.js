@@ -6,6 +6,8 @@
 const grid = document.querySelector('.grid')
 const start = document.querySelector('#start')
 const scoreDisplay = document.querySelector('#score-display')
+const livesDisplay = document.querySelector('#lives-display')
+
 
 // * Game Variables
 
@@ -23,6 +25,7 @@ let aliensMovingRight = true
 let score = 0
 let playerBulletMoving = null
 let aliensMoving = null
+let bombMovement = null
 let lives = 3
 
 // * Functions 
@@ -75,44 +78,11 @@ function moveAliens () {
   }, 800)
 }
 
-// function alienDeath () {
-//   cells[bulletPosition].classList.remove('alien', 'bullet')
-//   const alienIndex = aliens.indexOf(bulletPosition)
-//   const bulletLocations = []
-//   bulletLocations.push(bulletPosition)
-//   const bulletIndex = bulletLocations.indexOf(bulletPosition)
-//   bulletIndex.splice(alienIndex, 1)
-//   aliens.splice(alienIndex, 1)
-//   score = score + 100
-//   console.log(score)
-// window.clearInterval(playerBulletMoving)
-// }
-
-
-// function killAlien () {
-//   window.setInterval(() => {
-//     bulletsArray.forEach(laser => {
-//       if (cells[laser].classList.contains('alien')) {
-//         cells[bulletPosition].classList.remove('alien', 'bullet')
-//         const alienIndex = aliens.indexOf(bulletPosition)
-//         console.log(bulletPosition)
-//         bulletsArray.push(bulletPosition)
-//         console.log(bulletsArray)
-//         const bulletIndex = bulletsArray.indexOf(bulletPosition)
-//         bulletsArray.splice(bulletIndex, 1)
-//         aliens.splice(alienIndex, 1)
-//         score = score + 100
-//         console.log(score)
-//       }
-//     })
-//   }, 100)
-// }
-
 function playerShoot (e) {
   if(e.keyCode === 32 && gameOn) {
     e.preventDefault()
     let bulletPosition = playerPosition - 19
-    playerBulletMoving = window.setInterval(() => {
+    const playerBulletMoving = window.setInterval(() => {
       const y = Math.floor(bulletPosition / width)
       if(y === 0) {
         cells[bulletPosition].classList.remove('bullet')
@@ -123,7 +93,7 @@ function playerShoot (e) {
         score = score + 100
         scoreDisplay.textContent = score
         console.log(score)
-        window.clearInterval(playerBulletMoving)
+        clearInterval(playerBulletMoving)
       } else {
         cells[bulletPosition].classList.remove('bullet')
         bulletPosition = bulletPosition - 19
@@ -133,26 +103,30 @@ function playerShoot (e) {
   }
 }
 
+
+
 function alienShoot () {
   const bombs = aliens[Math.floor(Math.random() * aliens.length)]
   let bombPosition = bombs + 19
-  console.log(bombs)
-  bombMovement = window.setInterval(() => {
+  const bombMovement = window.setInterval(() => {
     const y = Math.floor(bombPosition / width)
-    console.log(y)
     if (y === 18) {
       cells[bombPosition].classList.remove('bomb')
     } else if (cells[bombPosition].classList.contains('player')) {
       cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
+      console.log(bombPosition)
       lives--
-      console.log(lives)
+      livesDisplay.textContent = lives
     } else {
       cells[bombPosition].classList.remove('bomb')
       bombPosition = bombPosition + 19
       cells[bombPosition].classList.add('bomb')
     }
-  }, 400)
+  }, 200)
 }
+
+
 // * Start Game
 
 function startGame() {
@@ -160,8 +134,9 @@ function startGame() {
   addPlayer(playerPosition)
   addAliens(alienPosition)
   moveAliens()
-  alienShoot()
-  // killAlien()
+  window.setInterval(() => {
+    alienShoot()
+  },1000)
 }
 
 // * Player Movement
