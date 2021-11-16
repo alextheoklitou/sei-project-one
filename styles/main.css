@@ -49,3 +49,11 @@ body {
 .bullet {
   background-color: yellow;
 }
+
+.explosion {
+  background-color: goldenrod;
+}
+
+.bomb {
+  background-color: black;
+}
