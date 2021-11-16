@@ -75,7 +75,7 @@ function moveAliens () {
       aliensMovingRight = !aliensMovingRight
     }
     addAliens()
-  }, 800)
+  }, 600)
 }
 
 function playerShoot (e) {
@@ -88,11 +88,14 @@ function playerShoot (e) {
         cells[bulletPosition].classList.remove('bullet')
       } else if (cells[bulletPosition].classList.contains('alien')) {
         cells[bulletPosition].classList.remove('alien', 'bullet')
+        cells[bulletPosition].classList.add('explosion')
+        setTimeout(() => {
+          cells[bulletPosition].classList.remove('explosion')
+        }, 300)
         const alienIndex = aliens.indexOf(bulletPosition)
         aliens.splice(alienIndex, 1)
         score = score + 100
         scoreDisplay.textContent = score
-        console.log(score)
         clearInterval(playerBulletMoving)
       } else {
         cells[bulletPosition].classList.remove('bullet')
@@ -104,7 +107,6 @@ function playerShoot (e) {
 }
 
 
-
 function alienShoot () {
   const bombs = aliens[Math.floor(Math.random() * aliens.length)]
   let bombPosition = bombs + 19
@@ -114,10 +116,16 @@ function alienShoot () {
       cells[bombPosition].classList.remove('bomb')
     } else if (cells[bombPosition].classList.contains('player')) {
       cells[bombPosition].classList.remove('bomb')
+      cells[bombPosition].classList.add('explosion')
+      setTimeout(() => {
+        cells[bombPosition].classList.remove('explosion')
+      }, 300)
       clearInterval(bombMovement)
-      console.log(bombPosition)
       lives--
       livesDisplay.textContent = lives
+      if (lives === 0) {
+        endGame()
+      }
     } else {
       cells[bombPosition].classList.remove('bomb')
       bombPosition = bombPosition + 19
@@ -137,6 +145,21 @@ function startGame() {
   window.setInterval(() => {
     alienShoot()
   },1000)
+}
+
+// * End Game
+function endGame () {
+  gameOn = false
+  cells.classList.remove('bomb')
+  cells.classList.remove('alien')
+  cells.classList.remove('player')
+  cells.classList.remove('bullet')
+  clearInterval(bombMovement)
+  bombMovement = null
+  clearInterval(aliensMoving)
+  aliensMoving = null
+  clearInterval(playerBulletMoving)
+  playerBulletMoving = null
 }
 
 // * Player Movement
