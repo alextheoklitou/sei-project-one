@@ -7,6 +7,9 @@ const livesTracker = document.querySelector('#livestracker')
 const scoreboard = document.querySelector('#scoreboard')
 const result = document.querySelector('#result')
 const resultDisplay = document.querySelector('#result-display')
+const audioPlayerShoot = document.querySelector('#audio-shoot')
+const audioPlayerAlienHit = document.querySelector('#audio-alien')
+const audioPlayerExplosion = document.querySelector('#audio-explosion')
 
 // * Game Variables
 
@@ -87,6 +90,8 @@ function moveAliens () {
 
 function playerShoot (e) {
   if(e.keyCode === 32 && gameOn) {
+    audioPlayerShoot.src = '../assets/shoot.wav'
+    audioPlayerShoot.play()
     e.preventDefault()
     let bulletPosition = playerPosition - 19
     const playerBulletMoving = window.setInterval(() => {
@@ -94,6 +99,8 @@ function playerShoot (e) {
       if(y === 0) {
         cells[bulletPosition].classList.remove('bullet')
       } else if (cells[bulletPosition].classList.contains('alien')) {
+        audioPlayerAlienHit.src = '../assets/invaderkilled.wav'
+        audioPlayerAlienHit.play()
         cells[bulletPosition].classList.remove('alien', 'bullet')
         const alienIndex = aliens.indexOf(bulletPosition)
         aliens.splice(alienIndex, 1)
@@ -110,6 +117,7 @@ function playerShoot (e) {
 }
 
 
+
 function alienShoot () {
   const bombs = aliens[Math.floor(Math.random() * aliens.length)]
   let bombPosition = bombs + 19
@@ -118,6 +126,8 @@ function alienShoot () {
     if (y === 18) {
       cells[bombPosition].classList.remove('bomb')
     } else if (cells[bombPosition].classList.contains('player')) {
+      audioPlayerExplosion.src = '../assets/explosion.wav'
+      audioPlayerExplosion.play()
       cells[bombPosition].classList.remove('bomb')
       clearInterval(bombMovement)
       lives--
