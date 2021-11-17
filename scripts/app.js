@@ -1,25 +1,24 @@
-
-
-
-
 // * DOM Variables
-const grid = document.querySelector('.grid')
+const grid = document.querySelector('#grid')
 const start = document.querySelector('#start')
 const scoreDisplay = document.querySelector('#score-display')
 const livesDisplay = document.querySelector('#lives-display')
-
+const livesTracker = document.querySelector('#livestracker')
+const scoreboard = document.querySelector('#scoreboard')
+const result = document.querySelector('#result')
+const resultDisplay = document.querySelector('#result-display')
 
 // * Game Variables
 
 const width = 19
 const gridCellCount = width * width
 const cells = []
+const slicedCells = cells.slice()
 const alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
 
 let gameOn = false
 let playerPosition = 332
 let aliens = alienPosition.slice()
-let slicedCells = cells.slice()
 let alienMoveTracker = 4
 let aliensMovingRight = true
 let score = 0
@@ -28,10 +27,10 @@ let aliensMoving = null
 let bombMovement = null
 let spaceshipAdded = null
 let spaceshipMoving = null
-let checks = null
 let lives = 3
 let spaceshipLocation = 0
 let bombsDroppingTimer = null
+let endGameCheckerTimer = null
 
 
 // * Functions 
@@ -84,29 +83,6 @@ function moveAliens () {
   }, 400)
 }
 
-function spaceship () {
-  const spaceshipAdded = window.setInterval(() => {
-    cells[spaceshipLocation].classList.add('spaceship')
-    spaceshipMovement()
-    console.log(spaceshipLocation)
-  }, 5000)
-}
-
-function spaceshipMovement () {
-  const spaceshipMoving = window.setInterval(() => {
-    if (spaceshipLocation === 18) {
-      cells[spaceshipLocation].classList.remove('spaceship')
-      spaceshipLocation === 0
-      return
-      // clearInterval(spaceshipMoving)
-      // clearInterval(spaceshipAdded)
-    } else if (spaceshipLocation < 18) {
-      cells[spaceshipLocation].classList.remove('spaceship')
-      spaceshipLocation = spaceshipLocation + 1
-      cells[spaceshipLocation].classList.add('spaceship')
-    }
-  }, 200)
-}
 
 
 function playerShoot (e) {
@@ -154,9 +130,9 @@ function alienShoot () {
       clearInterval(bombMovement)
       lives--
       livesDisplay.textContent = lives
-      if (lives === 0) {
-        endGame()
-      }
+      // if (lives === 0) {
+      //   endGame()
+      // }
     } else {
       cells[bombPosition].classList.remove('bomb')
       bombPosition = bombPosition + 19
@@ -170,18 +146,34 @@ function alienShoot () {
 
 function startGame() {
   gameOn = true
+  start.classList.add('hidden')
+  grid.classList.remove('hidden')
+  grid.classList.add('grid')
+  scoreboard.classList.remove('hidden')
+  livesTracker.classList.remove('hidden')
   addPlayer(playerPosition)
   addAliens(alienPosition)
   moveAliens()
   bombsDroppingTimer = window.setInterval(() => {
     alienShoot()
   },1000)
-  spaceship()
+  endGameChecker()
 }
 
-// * End Game
-function endGame () {
+//* End Checker
+function endGameChecker () {
+  endGameCheckerTimer = window.setInterval(() => {
+    if (lives === 0) {
+      endGame(`You lose! Your final score is ${score}!`)
+    } else if (aliens.length === 0) {
+      endGame(`You win! Your final score is ${score}!`)
+    }
+  }, 100)
+}
 
+
+// * End Game
+function endGame (endgamestatement) {
   aliens.forEach(alien => {
     cells[alien].classList.remove('alien')
   })
@@ -198,7 +190,11 @@ function endGame () {
   clearInterval(aliensMoving)
   clearInterval(bombsDroppingTimer)
   clearInterval(playerBulletMoving)
-  gameOn = false
+  clearInterval(endGameCheckerTimer)
+  grid.classList.remove('grid')
+  grid.classList.add('hidden')
+  result.classList.remove('hidden')
+  resultDisplay.innerHTML = endgamestatement
 }
 
 // * Player Movement

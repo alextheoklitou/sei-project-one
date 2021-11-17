@@ -9,14 +9,17 @@
   <script src="./scripts/app.js" defer></script>
 </head>
 <body>
-<img src="https://fontmeme.com/permalink/211117/ee5d71396e84ca258d08ccc903f47582.png" alt="space invaders" id="space-invaders">
-  <div class="controls-wrapper">
-    <button id="start">Start Invasion</button>
-    <p>Current Score: <span id="score-display"></span></p>
-    <p>Lives: <span id="lives-display">3</span></p>
+  <div><img src="./assets/coollogo_com-23427324.png" alt="space invaders" id="space-invaders"></div>
+  <div class="controls-wrapper" class="hidden">
+    <p id="scoreboard" class="hidden">Current Score: <span id="score-display"></span></p>
+    <p id="livestracker" class="hidden">Lives: <span id="lives-display">3</span></p>
   </div>
   <div class="grid-wrapper">
-    <div class="grid"></div>
+    <button id="start"><img id="start-invasion" src="./assets/coollogo_com-17502866.png" alt="start invasion"></button>
+    <div id="grid" class="hidden"></div>
+    <div id="result" class="hidden">
+      <h2 id="result-display"></h2>
+    </div>
   </div>
 </body>
 </html>
