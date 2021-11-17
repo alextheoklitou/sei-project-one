@@ -152,16 +152,20 @@ function startGame() {
 //* End Checker
 function endGameChecker () {
   endGameCheckerTimer = window.setInterval(() => {
+    let y = null
     aliens.forEach(alien => {
-      const y = Math.floor(alien / width)
-      if (lives === 0) {
-        endGame(`You lose! Your final score is ${score}!`)
-      } else if (aliens.length === 0) {
-        endGame(`You win! Your final score is ${score}!`)
-      } else if (y === 18) {
-        endGame(`You lose! Your final score is ${score}!`)
-      }
+      y = Math.floor(alien / width)
     })
+    if (lives === 0) {
+      endGame(`You lose! Your final score is ${score}!`)
+      return
+    } else if (aliens.length === 0) {
+      endGame(`You win! Your final score is ${score}!`)
+      return
+    } else if (y === 18) {
+      endGame(`You lose! Your final score is ${score}!`)
+      return
+    }
   }, 100)
 }
 
