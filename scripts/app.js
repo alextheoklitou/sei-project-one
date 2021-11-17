@@ -14,19 +14,25 @@ const livesDisplay = document.querySelector('#lives-display')
 const width = 19
 const gridCellCount = width * width
 const cells = []
-const alienPosition = [24, 25, 26, 27, 28, 29, 30, 31, 32, 43, 44, 45, 46, 47, 48, 49, 50, 51, 62, 63, 64, 65, 66, 67, 68, 69, 70]
-const bulletsArray = []
+const alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
 
 let gameOn = false
 let playerPosition = 332
 let aliens = alienPosition.slice()
-let alienMoveTracker = 5
+let slicedCells = cells.slice()
+let alienMoveTracker = 4
 let aliensMovingRight = true
 let score = 0
 let playerBulletMoving = null
 let aliensMoving = null
 let bombMovement = null
+let spaceshipAdded = null
+let spaceshipMoving = null
+let checks = null
 let lives = 3
+let spaceshipLocation = 0
+let bombsDroppingTimer = null
+
 
 // * Functions 
 
@@ -62,21 +68,46 @@ function removeAliens() {
 function moveAliens () {
   aliensMoving = window.setInterval(() => {
     removeAliens()
-    if (alienMoveTracker < 10) {
+    if (alienMoveTracker < 8) {
       if (aliensMovingRight) {
         aliens = aliens.map(alien => alien + 1)
       } else {
         aliens = aliens.map(alien => alien - 1)
       }
       alienMoveTracker++
-    } else if (alienMoveTracker === 10) {
+    } else if (alienMoveTracker === 8) {
       alienMoveTracker = 0
       aliens = aliens.map(alien => alien + width)
       aliensMovingRight = !aliensMovingRight
     }
     addAliens()
-  }, 600)
+  }, 400)
 }
+
+function spaceship () {
+  const spaceshipAdded = window.setInterval(() => {
+    cells[spaceshipLocation].classList.add('spaceship')
+    spaceshipMovement()
+    console.log(spaceshipLocation)
+  }, 5000)
+}
+
+function spaceshipMovement () {
+  const spaceshipMoving = window.setInterval(() => {
+    if (spaceshipLocation === 18) {
+      cells[spaceshipLocation].classList.remove('spaceship')
+      spaceshipLocation === 0
+      return
+      // clearInterval(spaceshipMoving)
+      // clearInterval(spaceshipAdded)
+    } else if (spaceshipLocation < 18) {
+      cells[spaceshipLocation].classList.remove('spaceship')
+      spaceshipLocation = spaceshipLocation + 1
+      cells[spaceshipLocation].classList.add('spaceship')
+    }
+  }, 200)
+}
+
 
 function playerShoot (e) {
   if(e.keyCode === 32 && gameOn) {
@@ -142,24 +173,32 @@ function startGame() {
   addPlayer(playerPosition)
   addAliens(alienPosition)
   moveAliens()
-  window.setInterval(() => {
+  bombsDroppingTimer = window.setInterval(() => {
     alienShoot()
   },1000)
+  spaceship()
 }
 
 // * End Game
 function endGame () {
-  gameOn = false
-  cells.classList.remove('bomb')
-  cells.classList.remove('alien')
-  cells.classList.remove('player')
-  cells.classList.remove('bullet')
+
+  aliens.forEach(alien => {
+    cells[alien].classList.remove('alien')
+  })
+  slicedCells.forEach(cell => {
+    cells[cell].classList.remove('bomb')
+  })
+  slicedCells.forEach(cell => {
+    cells[cell].classList.remove('player')
+  })
+  slicedCells.forEach(cell => {
+    cells[cell].classList.remove('bullet')
+  })
   clearInterval(bombMovement)
-  bombMovement = null
   clearInterval(aliensMoving)
-  aliensMoving = null
+  clearInterval(bombsDroppingTimer)
   clearInterval(playerBulletMoving)
-  playerBulletMoving = null
+  gameOn = false
 }
 
 // * Player Movement
