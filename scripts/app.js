@@ -95,10 +95,6 @@ function playerShoot (e) {
         cells[bulletPosition].classList.remove('bullet')
       } else if (cells[bulletPosition].classList.contains('alien')) {
         cells[bulletPosition].classList.remove('alien', 'bullet')
-        cells[bulletPosition].classList.add('explosion')
-        setTimeout(() => {
-          cells[bulletPosition].classList.remove('explosion')
-        }, 300)
         const alienIndex = aliens.indexOf(bulletPosition)
         aliens.splice(alienIndex, 1)
         score = score + 100
@@ -123,16 +119,9 @@ function alienShoot () {
       cells[bombPosition].classList.remove('bomb')
     } else if (cells[bombPosition].classList.contains('player')) {
       cells[bombPosition].classList.remove('bomb')
-      cells[bombPosition].classList.add('explosion')
-      setTimeout(() => {
-        cells[bombPosition].classList.remove('explosion')
-      }, 300)
       clearInterval(bombMovement)
       lives--
       livesDisplay.textContent = lives
-      // if (lives === 0) {
-      //   endGame()
-      // }
     } else {
       cells[bombPosition].classList.remove('bomb')
       bombPosition = bombPosition + 19
@@ -163,11 +152,16 @@ function startGame() {
 //* End Checker
 function endGameChecker () {
   endGameCheckerTimer = window.setInterval(() => {
-    if (lives === 0) {
-      endGame(`You lose! Your final score is ${score}!`)
-    } else if (aliens.length === 0) {
-      endGame(`You win! Your final score is ${score}!`)
-    }
+    aliens.forEach(alien => {
+      const y = Math.floor(alien / width)
+      if (lives === 0) {
+        endGame(`You lose! Your final score is ${score}!`)
+      } else if (aliens.length === 0) {
+        endGame(`You win! Your final score is ${score}!`)
+      } else if (y === 18) {
+        endGame(`You lose! Your final score is ${score}!`)
+      }
+    })
   }, 100)
 }
 
