@@ -42,6 +42,10 @@ let lives = 3
 let bombsDroppingTimer = null
 let endGameCheckerTimer = null
 let muted = true
+audioPlayerMusic.muted = true
+audioPlayerShoot.muted = true
+audioPlayerAlienHit.muted = true
+audioPlayerExplosion.muted = true
 
 
 // * Functions 
@@ -234,23 +238,19 @@ function endGameChecker () {
 
 // * End Game
 function endGame (endgamestatement) {
-  aliens.forEach(alien => {
-    cells[alien].classList.remove('alien')
-  })
-  slicedCells.forEach(cell => {
-    cells[cell].classList.remove('bomb')
-  })
-  slicedCells.forEach(cell => {
-    cells[cell].classList.remove('player')
-  })
-  slicedCells.forEach(cell => {
-    cells[cell].classList.remove('bullet')
-  })
+  removePlayer()
+  removeAliens()
   clearInterval(bombMovement)
   clearInterval(aliensMoving)
   clearInterval(bombsDroppingTimer)
   clearInterval(playerBulletMoving)
   clearInterval(endGameCheckerTimer)
+  slicedCells.forEach(cell => {
+    cells[cell].classList.remove('bomb')
+  })
+  slicedCells.forEach(cell => {
+    cells[cell].classList.remove('bullet')
+  })
   grid.classList.remove('grid')
   grid.classList.add('hidden')
   result.classList.remove('hidden')
@@ -286,21 +286,24 @@ function handleKeyUp(e) {
 
 // * Reload
 function reset() {
+  removePlayer()
   result.classList.add('hidden')
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
   alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
-  playerPosition = 351
   aliens = alienPosition.slice()
-  alienMoveTracker = 4
   aliensMovingRight = true
-  score = 0
   playerBulletMoving = null
   aliensMoving = null
   bombMovement = null
-  lives = 3
   bombsDroppingTimer = null
   endGameCheckerTimer = null
+  lives = 3
+  livesDisplay.textContent = lives
+  score = 0
+  scoreDisplay.textContent = score
+  alienMoveTracker = 4
+  playerPosition = 351
   startGame()
 }
 
