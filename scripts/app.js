@@ -3,9 +3,9 @@
 const grid = document.querySelector('#grid')
 const start = document.querySelector('#start')
 const scoreDisplay = document.querySelector('#score-display')
+const scoreboard = document.querySelector('#scoreboard')
 const livesDisplay = document.querySelector('#lives-display')
 const livesTracker = document.querySelector('#livestracker')
-const scoreboard = document.querySelector('#scoreboard')
 const result = document.querySelector('#result')
 const resultDisplay = document.querySelector('#result-display')
 const audioPlayerShoot = document.querySelector('#audio-shoot')
@@ -13,7 +13,9 @@ const audioPlayerAlienHit = document.querySelector('#audio-alien')
 const audioPlayerExplosion = document.querySelector('#audio-explosion')
 const audioPlayerMusic = document.querySelector('#audio-music')
 const playAgain = document.querySelector('#reload')
+const levelUpButton = document.querySelector('#level-up')
 const musicButton = document.querySelector('#music-toggle')
+const reloadButton = document.querySelector('#reload')
 audioPlayerMusic.src = '../assets/everythingisawesome.mp3'
 audioPlayerShoot.src = '../assets/shoot.wav'
 audioPlayerAlienHit.src = '../assets/invaderkilled.wav'
@@ -44,6 +46,12 @@ audioPlayerMusic.muted = true
 audioPlayerShoot.muted = true
 audioPlayerAlienHit.muted = true
 audioPlayerExplosion.muted = true
+
+// * Level Up Variables
+let level = 1
+let aliensMovingInterval = 400
+let aliensBombSpeed = 200
+let alienBombInterval = 1200
 
 // * Functions 
 
@@ -92,7 +100,7 @@ function moveAliens () {
       aliensMovingRight = !aliensMovingRight
     }
     addAliens()
-  }, 400)
+  }, aliensMovingInterval)
 }
 
 function playerShoot (e) {
@@ -163,7 +171,7 @@ function alienShoot () {
       bombPosition = bombPosition + 19
       cells[bombPosition].classList.add('bomb')
     }
-  }, 200)
+  }, aliensBombSpeed)
 }
 
 function musicToggle() {
@@ -198,7 +206,7 @@ function startGame() {
   moveAliens()
   bombsDroppingTimer = window.setInterval(() => {
     alienShoot()
-  },1000)
+  },alienBombInterval)
   endGameChecker()
   barrier1Positions.forEach(position => {
     cells[position].classList.add('barrier1')
@@ -223,7 +231,7 @@ function endGameChecker () {
       endGame(`You lose! Your final score is ${score}!`)
       return
     } else if (aliens.length === 0) {
-      endGame(`You win! Your final score is ${score}!`)
+      levelCompleted(`You have completed level ${level}! Your current score is ${score}!`)
       return
     } else if (y === 18) {
       endGame(`You lose! Your final score is ${score}!`)
@@ -245,6 +253,7 @@ function endGame (endgamestatement) {
   grid.classList.remove('grid')
   grid.classList.add('hidden')
   result.classList.remove('hidden')
+  reloadButton.classList.remove('hidden')
   resultDisplay.innerHTML = endgamestatement
   scoreboard.classList.add('hidden')
   livesTracker.classList.add('hidden')
@@ -254,6 +263,54 @@ function endGame (endgamestatement) {
   cells.forEach(cell => {
     cells[cell].classList.remove('bullet')
   })
+}
+
+function levelCompleted (endgamestatement) {
+  removePlayer()
+  removeAliens()
+  clearInterval(bombMovement)
+  clearInterval(aliensMoving)
+  clearInterval(bombsDroppingTimer)
+  clearInterval(playerBulletMoving)
+  clearInterval(endGameCheckerTimer)
+  grid.classList.remove('grid')
+  grid.classList.add('hidden')
+  result.classList.remove('hidden')
+  resultDisplay.innerHTML = endgamestatement
+  levelUpButton.classList.remove('hidden')
+  scoreboard.classList.add('hidden')
+  livesTracker.classList.add('hidden')
+  cells.forEach(cell => {
+    cells[cell].classList.remove('bomb')
+  })
+  cells.forEach(cell => {
+    cells[cell].classList.remove('bullet')
+  })
+}
+
+// * Level Up
+function levelUp() {
+  level = level + 1
+  aliensMovingInterval = 400
+  aliensBombSpeed = 200
+  alienBombInterval = alienBombInterval - (level * 20)
+  removePlayer()
+  result.classList.add('hidden')
+  scoreboard.classList.remove('hidden')
+  livesTracker.classList.remove('hidden')
+  levelUpButton.classList.add('hidden')
+  aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
+  aliensMovingRight = true
+  playerBulletMoving = null
+  aliensMoving = null
+  bombMovement = null
+  bombsDroppingTimer = null
+  endGameCheckerTimer = null
+  // livesDisplay.textContent = lives
+  // scoreDisplay.textContent = score
+  alienMoveTracker = 4
+  playerPosition = 332
+  startGame()
 }
 
 // * Player Movement
@@ -285,6 +342,7 @@ function handleKeyUp(e) {
 function reset() {
   removePlayer()
   result.classList.add('hidden')
+  reloadButton.classList.add('hidden')
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
   aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
@@ -309,5 +367,6 @@ start.addEventListener('click', startGame)
 document.addEventListener('keyup', handleKeyUp)
 document.addEventListener('keyup', playerShoot)
 playAgain.addEventListener('click', reset)
+levelUpButton.addEventListener('click', levelUp)
 musicButton.addEventListener('click', musicToggle)
 musicButton.textContent = 'UNMUTE'
