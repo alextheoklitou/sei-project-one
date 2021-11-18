@@ -24,14 +24,12 @@ audioPlayerExplosion.src = '../assets/explosion.wav'
 const width = 19
 const gridCellCount = width * width
 const cells = []
-const slicedCells = cells.slice()
-const barrier1Positions = [286, 291, 296, 301]
-const barrier2Positions = [287, 292, 297, 302]
-const barrier3Positions = [288, 293, 298, 303]
-let alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
+const barrier1Positions = [267, 272, 277, 282]
+const barrier2Positions = [268, 273, 278, 283]
+const barrier3Positions = [269, 274, 279, 284]
+let aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
 let gameOn = false
-let playerPosition = 351
-let aliens = alienPosition.slice()
+let playerPosition = 332
 let alienMoveTracker = 4
 let aliensMovingRight = true
 let score = 0
@@ -46,7 +44,6 @@ audioPlayerMusic.muted = true
 audioPlayerShoot.muted = true
 audioPlayerAlienHit.muted = true
 audioPlayerExplosion.muted = true
-
 
 // * Functions 
 
@@ -197,7 +194,7 @@ function startGame() {
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
   addPlayer(playerPosition)
-  addAliens(alienPosition)
+  addAliens(aliens)
   moveAliens()
   bombsDroppingTimer = window.setInterval(() => {
     alienShoot()
@@ -245,18 +242,18 @@ function endGame (endgamestatement) {
   clearInterval(bombsDroppingTimer)
   clearInterval(playerBulletMoving)
   clearInterval(endGameCheckerTimer)
-  slicedCells.forEach(cell => {
-    cells[cell].classList.remove('bomb')
-  })
-  slicedCells.forEach(cell => {
-    cells[cell].classList.remove('bullet')
-  })
   grid.classList.remove('grid')
   grid.classList.add('hidden')
   result.classList.remove('hidden')
   resultDisplay.innerHTML = endgamestatement
   scoreboard.classList.add('hidden')
   livesTracker.classList.add('hidden')
+  cells.forEach(cell => {
+    cells[cell].classList.remove('bomb')
+  })
+  cells.forEach(cell => {
+    cells[cell].classList.remove('bullet')
+  })
 }
 
 // * Player Movement
@@ -290,8 +287,7 @@ function reset() {
   result.classList.add('hidden')
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
-  alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
-  aliens = alienPosition.slice()
+  aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
   aliensMovingRight = true
   playerBulletMoving = null
   aliensMoving = null
@@ -303,7 +299,7 @@ function reset() {
   score = 0
   scoreDisplay.textContent = score
   alienMoveTracker = 4
-  playerPosition = 351
+  playerPosition = 332
   startGame()
 }
 

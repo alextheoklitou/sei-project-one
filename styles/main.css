@@ -38,6 +38,11 @@ body {
   margin: 120px 0px 0px;
   color: red;
   font-weight: bold;
+  border: 1px solid yellow
+}
+
+#music-toggle:hover {
+  box-shadow: 0 0px 16px 10px yellow;
 }
 
 
