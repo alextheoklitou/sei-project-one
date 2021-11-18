@@ -66,7 +66,7 @@ body {
 }
 
 
-#scoreboard, #livestracker, #leveltracker {
+#scoreboard, #livesboard, #levelboard {
   background-color: blue;
   padding: 15px;
 }

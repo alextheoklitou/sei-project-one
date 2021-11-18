@@ -5,7 +5,9 @@ const start = document.querySelector('#start')
 const scoreDisplay = document.querySelector('#score-display')
 const scoreboard = document.querySelector('#scoreboard')
 const livesDisplay = document.querySelector('#lives-display')
-const livesTracker = document.querySelector('#livestracker')
+const livesTracker = document.querySelector('#livesboard')
+const levelDisplay = document.querySelector('#level-display')
+const levelTracker = document.querySelector('#levelboard')
 const result = document.querySelector('#result')
 const resultDisplay = document.querySelector('#result-display')
 const audioPlayerShoot = document.querySelector('#audio-shoot')
@@ -201,6 +203,7 @@ function startGame() {
   grid.classList.add('grid')
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
+  levelTracker.classList.remove('hidden')
   addPlayer(playerPosition)
   addAliens(aliens)
   moveAliens()
@@ -257,6 +260,7 @@ function endGame (endgamestatement) {
   resultDisplay.innerHTML = endgamestatement
   scoreboard.classList.add('hidden')
   livesTracker.classList.add('hidden')
+  levelTracker.classList.add('hidden')
   cells.forEach(cell => {
     cells[cell].classList.remove('bomb')
   })
@@ -280,6 +284,7 @@ function levelCompleted (endgamestatement) {
   levelUpButton.classList.remove('hidden')
   scoreboard.classList.add('hidden')
   livesTracker.classList.add('hidden')
+  levelTracker.classList.add('hidden')
   cells.forEach(cell => {
     cells[cell].classList.remove('bomb')
   })
@@ -293,11 +298,12 @@ function levelUp() {
   level = level + 1
   aliensMovingInterval = 400
   aliensBombSpeed = 200
-  alienBombInterval = alienBombInterval - (level * 20)
+  alienBombInterval = alienBombInterval - (level * 40)
   removePlayer()
   result.classList.add('hidden')
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
+  levelTracker.classList.remove('hidden')
   levelUpButton.classList.add('hidden')
   aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
   aliensMovingRight = true
@@ -306,11 +312,10 @@ function levelUp() {
   bombMovement = null
   bombsDroppingTimer = null
   endGameCheckerTimer = null
-  // livesDisplay.textContent = lives
-  // scoreDisplay.textContent = score
   alienMoveTracker = 4
   playerPosition = 332
   startGame()
+  levelDisplay.textContent = level
 }
 
 // * Player Movement
@@ -345,6 +350,7 @@ function reset() {
   reloadButton.classList.add('hidden')
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
+  levelTracker.classList.remove('hidden')
   aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
   aliensMovingRight = true
   playerBulletMoving = null
