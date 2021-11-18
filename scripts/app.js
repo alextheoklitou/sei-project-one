@@ -1,4 +1,5 @@
 // * DOM Variables
+
 const grid = document.querySelector('#grid')
 const start = document.querySelector('#start')
 const scoreDisplay = document.querySelector('#score-display')
@@ -10,6 +11,13 @@ const resultDisplay = document.querySelector('#result-display')
 const audioPlayerShoot = document.querySelector('#audio-shoot')
 const audioPlayerAlienHit = document.querySelector('#audio-alien')
 const audioPlayerExplosion = document.querySelector('#audio-explosion')
+const audioPlayerMusic = document.querySelector('#audio-music')
+const playAgain = document.querySelector('#reload')
+const musicButton = document.querySelector('#music-toggle')
+audioPlayerMusic.src = '../assets/everythingisawesome.mp3'
+audioPlayerShoot.src = '../assets/shoot.wav'
+audioPlayerAlienHit.src = '../assets/invaderkilled.wav'
+audioPlayerExplosion.src = '../assets/explosion.wav'
 
 // * Game Variables
 
@@ -17,10 +25,12 @@ const width = 19
 const gridCellCount = width * width
 const cells = []
 const slicedCells = cells.slice()
-const alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
-
+const barrier1Positions = [286, 291, 296, 301]
+const barrier2Positions = [287, 292, 297, 302]
+const barrier3Positions = [288, 293, 298, 303]
+let alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
 let gameOn = false
-let playerPosition = 332
+let playerPosition = 351
 let aliens = alienPosition.slice()
 let alienMoveTracker = 4
 let aliensMovingRight = true
@@ -28,12 +38,10 @@ let score = 0
 let playerBulletMoving = null
 let aliensMoving = null
 let bombMovement = null
-let spaceshipAdded = null
-let spaceshipMoving = null
 let lives = 3
-let spaceshipLocation = 0
 let bombsDroppingTimer = null
 let endGameCheckerTimer = null
+let muted = true
 
 
 // * Functions 
@@ -86,11 +94,8 @@ function moveAliens () {
   }, 400)
 }
 
-
-
 function playerShoot (e) {
   if(e.keyCode === 32 && gameOn) {
-    audioPlayerShoot.src = '../assets/shoot.wav'
     audioPlayerShoot.play()
     e.preventDefault()
     let bulletPosition = playerPosition - 19
@@ -99,13 +104,24 @@ function playerShoot (e) {
       if(y === 0) {
         cells[bulletPosition].classList.remove('bullet')
       } else if (cells[bulletPosition].classList.contains('alien')) {
-        audioPlayerAlienHit.src = '../assets/invaderkilled.wav'
         audioPlayerAlienHit.play()
         cells[bulletPosition].classList.remove('alien', 'bullet')
         const alienIndex = aliens.indexOf(bulletPosition)
         aliens.splice(alienIndex, 1)
         score = score + 100
         scoreDisplay.textContent = score
+        clearInterval(playerBulletMoving)
+      } else if (cells[bulletPosition].classList.contains('barrier1')) {
+        cells[bulletPosition].classList.remove('barrier1')
+        cells[bulletPosition].classList.remove('bullet')
+        clearInterval(playerBulletMoving)
+      } else if (cells[bulletPosition].classList.contains('barrier2')) {
+        cells[bulletPosition].classList.remove('barrier2')
+        cells[bulletPosition].classList.remove('bullet')
+        clearInterval(playerBulletMoving)
+      } else if (cells[bulletPosition].classList.contains('barrier3')) {
+        cells[bulletPosition].classList.remove('barrier3')
+        cells[bulletPosition].classList.remove('bullet')
         clearInterval(playerBulletMoving)
       } else {
         cells[bulletPosition].classList.remove('bullet')
@@ -116,22 +132,31 @@ function playerShoot (e) {
   }
 }
 
-
-
 function alienShoot () {
   const bombs = aliens[Math.floor(Math.random() * aliens.length)]
   let bombPosition = bombs + 19
   const bombMovement = window.setInterval(() => {
     const y = Math.floor(bombPosition / width)
-    if (y === 18) {
-      cells[bombPosition].classList.remove('bomb')
-    } else if (cells[bombPosition].classList.contains('player')) {
-      audioPlayerExplosion.src = '../assets/explosion.wav'
+    if (cells[bombPosition].classList.contains('player')) {
       audioPlayerExplosion.play()
       cells[bombPosition].classList.remove('bomb')
       clearInterval(bombMovement)
       lives--
       livesDisplay.textContent = lives
+    } else if (y === 18) {
+      cells[bombPosition].classList.remove('bomb')
+    } else if (cells[bombPosition].classList.contains('barrier1')) {
+      cells[bombPosition].classList.remove('barrier1')
+      cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
+    } else if (cells[bombPosition].classList.contains('barrier2')) {
+      cells[bombPosition].classList.remove('barrier2')
+      cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
+    } else if (cells[bombPosition].classList.contains('barrier3')) {
+      cells[bombPosition].classList.remove('barrier3')
+      cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
     } else {
       cells[bombPosition].classList.remove('bomb')
       bombPosition = bombPosition + 19
@@ -140,6 +165,23 @@ function alienShoot () {
   }, 200)
 }
 
+function musicToggle() {
+  muted = !muted
+  if (muted) {
+    audioPlayerMusic.muted = true
+    audioPlayerShoot.muted = true
+    audioPlayerAlienHit.muted = true
+    audioPlayerExplosion.muted = true
+    musicButton.textContent = 'UNMUTE'
+  } else if (!muted) {
+    audioPlayerMusic.muted = false
+    audioPlayerShoot.muted = false
+    audioPlayerAlienHit.muted = false
+    audioPlayerExplosion.muted = false
+    audioPlayerMusic.play()
+    musicButton.textContent = 'MUTE'
+  }
+}
 
 // * Start Game
 
@@ -157,7 +199,17 @@ function startGame() {
     alienShoot()
   },1000)
   endGameChecker()
+  barrier1Positions.forEach(position => {
+    cells[position].classList.add('barrier1')
+  })
+  barrier2Positions.forEach(position => {
+    cells[position].classList.add('barrier2')
+  })
+  barrier3Positions.forEach(position => {
+    cells[position].classList.add('barrier3')
+  })
 }
+
 
 //* End Checker
 function endGameChecker () {
@@ -203,6 +255,8 @@ function endGame (endgamestatement) {
   grid.classList.add('hidden')
   result.classList.remove('hidden')
   resultDisplay.innerHTML = endgamestatement
+  scoreboard.classList.add('hidden')
+  livesTracker.classList.add('hidden')
 }
 
 // * Player Movement
@@ -230,9 +284,31 @@ function handleKeyUp(e) {
   }
 }
 
+// * Reload
+function reset() {
+  result.classList.add('hidden')
+  scoreboard.classList.remove('hidden')
+  livesTracker.classList.remove('hidden')
+  alienPosition = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
+  playerPosition = 351
+  aliens = alienPosition.slice()
+  alienMoveTracker = 4
+  aliensMovingRight = true
+  score = 0
+  playerBulletMoving = null
+  aliensMoving = null
+  bombMovement = null
+  lives = 3
+  bombsDroppingTimer = null
+  endGameCheckerTimer = null
+  startGame()
+}
 
 // * Events
 createGrid()
 start.addEventListener('click', startGame)
 document.addEventListener('keyup', handleKeyUp)
 document.addEventListener('keyup', playerShoot)
+playAgain.addEventListener('click', reset)
+musicButton.addEventListener('click', musicToggle)
+musicButton.textContent = 'UNMUTE'

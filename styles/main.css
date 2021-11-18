@@ -11,13 +11,17 @@ body {
   height: 100vh;
   margin: 0;
   background-size: cover;
-  background-position:top;
+  background-position: top;
   text-align: center;
   background-image: url('../assets/lego-png-46628.png');
   background-color: red;
-  background-size:cover;
   background-repeat: no-repeat;
   color: white;
+}
+
+#header-container{
+  display: flex;
+  justify-content: center;
 }
 
 #space-invaders {
@@ -25,8 +29,19 @@ body {
   height: 100px;
 }
 
+#music-toggle {
+  background-image: url('../assets/73619e21843971c38bbc86762fbb9f16.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 80px;
+  margin: 120px 0px 0px;
+  color: red;
+  font-weight: bold;
+}
 
-button {
+
+#start, #reload {
   border: none;
   background-image: url('../assets/lego-png-46637.png');
   background-color: red;
@@ -41,9 +56,10 @@ button {
   border-radius: 50%;
 }
 
-button:hover {
+#start:hover, #reload:hover {
   box-shadow: 0 0px 16px 10px blue;
 }
+
 
 #scoreboard {
   background-color: blue;
@@ -56,6 +72,11 @@ button:hover {
 }
 
 #start-invasion {
+  width: 140px;
+  padding: 0px 0px 20px 0px;
+}
+
+#reload-game {
   width: 140px;
   padding: 0px 0px 20px 0px;
 }
@@ -75,6 +96,7 @@ button:hover {
   justify-content: center;
   padding: 0px 50px;
 }
+
 .hidden {
   display: none;
 }
@@ -121,4 +143,22 @@ button:hover {
   background-image: url('../assets/PngItem_1158117.png');
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.barrier1 {
+  background-image: url('../assets/row-1-column-1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.barrier2 {
+  background-image: url('../assets/row-1-column-2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.barrier3 {
+  background-image: url('../assets/row-1-column-3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
