@@ -19,10 +19,10 @@ const levelUpButton = document.querySelector('#level-up')
 const musicButton = document.querySelector('#music-toggle')
 const reloadButton = document.querySelector('#reload')
 audioPlayerMusic.src = '../assets/everythingisawesome.mp3'
-audioPlayerShoot.src = '../assets/shoot.wav'
-audioPlayerAlienHit.src = '../assets/invaderkilled.wav'
-audioPlayerExplosion.src = '../assets/explosion.wav'
-
+audioPlayerShoot.src = '..assets/LEGO_CREAK1.WAV'
+audioPlayerAlienHit.src = '../assets/LEGO_DEBRISSML1.WAV'
+audioPlayerExplosion.src = '../assets/LEGO_HITIMPACTSML4.WAV'
+audioPlayerMusic.volume = 0.1
 // * Game Variables
 
 const width = 19
