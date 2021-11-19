@@ -25,7 +25,7 @@ audioPlayerShoot.src = '../assets/LEGO_CLICKS5.WAV'
 audioPlayerAlienHit.src = '../assets/LEGO_DEBRISSML1.WAV'
 audioPlayerExplosion.src = '../assets/LEGO_HITIMPACTSML4.WAV'
 audioPlayerBarrier.src = '../assets/LEGO_FALLAPART1.WAV'
-audioPlayerMusic.volume = 0.1
+audioPlayerMusic.volume = 0.05
 
 // * Game Variables
 
@@ -276,6 +276,7 @@ function endGame (endgamestatement) {
   scoreboard.classList.add('hidden')
   livesTracker.classList.add('hidden')
   levelTracker.classList.add('hidden')
+  controlsWrapper.classList.add('hidden')
   cells.forEach(cell => {
     cells[cell].classList.remove('bomb')
   })
@@ -300,6 +301,7 @@ function levelCompleted (endgamestatement) {
   scoreboard.classList.add('hidden')
   livesTracker.classList.add('hidden')
   levelTracker.classList.add('hidden')
+  controlsWrapper.classList.add('hidden')
   cells.forEach(cell => {
     cells[cell].classList.remove('bomb')
   })

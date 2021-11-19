@@ -20,8 +20,7 @@ body {
 }
 
 #header-container{
-  display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
 #space-invaders {
@@ -84,6 +83,8 @@ body {
   justify-content: space-evenly;
   align-items: center;
   color: white;
+  width: 50%;
+  margin: auto;
 }
 
 #controls-wrapper.hidden {
@@ -130,13 +131,13 @@ body {
 }
 
 .bullet {
-  background-image: url('../assets/brick-png-39849.png');
+  background-image: url('../assets/PngItem_1158117.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .bomb {
-  background-image: url('../assets/PngItem_1158117.png');
+  background-image: url('../assets/brick-png-39849.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -163,11 +164,12 @@ body {
   text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue;
 }
 
-.footer {
+footer {
 display: flex;
 flex-direction: row;
 justify-content: center;
 height: 100px;
+margin: 0px 0px 15px;
 }
 
 figure {
