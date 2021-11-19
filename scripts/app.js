@@ -313,8 +313,8 @@ function levelCompleted (endgamestatement) {
 // * Level Up
 function levelUp() {
   level = level + 1
-  aliensMovingInterval = 400
-  aliensBombSpeed = 200
+  aliensMovingInterval = aliensMovingInterval - (level * 15)
+  aliensBombSpeed = aliensBombSpeed - 5
   alienBombInterval = alienBombInterval - (level * 40)
   removePlayer()
   result.classList.add('hidden')
