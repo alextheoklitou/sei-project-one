@@ -20,11 +20,11 @@ const levelUpButton = document.querySelector('#level-up')
 const musicButton = document.querySelector('#music-toggle')
 const reloadButton = document.querySelector('#reload')
 const audioPlayerBarrier = document.querySelector('#audio-barrier-break')
-audioPlayerMusic.src = '../assets/everythingisawesome.mp3'
-audioPlayerShoot.src = '../assets/LEGO_CLICKS5.WAV'
-audioPlayerAlienHit.src = '../assets/LEGO_DEBRISSML1.WAV'
-audioPlayerExplosion.src = '../assets/LEGO_HITIMPACTSML4.WAV'
-audioPlayerBarrier.src = '../assets/LEGO_FALLAPART1.WAV'
+audioPlayerMusic.src = './assets/everythingisawesome.mp3'
+audioPlayerShoot.src = './assets/LEGO_CLICKS5.WAV'
+audioPlayerAlienHit.src = './assets/LEGO_DEBRISSML1.WAV'
+audioPlayerExplosion.src = './assets/LEGO_HITIMPACTSML4.WAV'
+audioPlayerBarrier.src = './assets/LEGO_FALLAPART1.WAV'
 audioPlayerMusic.volume = 0.05
 
 // * Game Variables
