@@ -52,6 +52,7 @@ audioPlayerMusic.muted = true
 audioPlayerShoot.muted = true
 audioPlayerAlienHit.muted = true
 audioPlayerExplosion.muted = true
+audioPlayerBarrier.muted = true
 audioPlayerMusic.loop = true
 
 // * Level Up Variables
@@ -128,14 +129,17 @@ function playerShoot (e) {
         scoreDisplay.textContent = score
         clearInterval(playerBulletMoving)
       } else if (cells[bulletPosition].classList.contains('barrier1')) {
+        audioPlayerBarrier.play()
         cells[bulletPosition].classList.remove('barrier1')
         cells[bulletPosition].classList.remove('bullet')
         clearInterval(playerBulletMoving)
       } else if (cells[bulletPosition].classList.contains('barrier2')) {
+        audioPlayerBarrier.play()
         cells[bulletPosition].classList.remove('barrier2')
         cells[bulletPosition].classList.remove('bullet')
         clearInterval(playerBulletMoving)
       } else if (cells[bulletPosition].classList.contains('barrier3')) {
+        audioPlayerBarrier.play()
         cells[bulletPosition].classList.remove('barrier3')
         cells[bulletPosition].classList.remove('bullet')
         clearInterval(playerBulletMoving)
@@ -191,12 +195,14 @@ function musicToggle() {
     audioPlayerShoot.muted = true
     audioPlayerAlienHit.muted = true
     audioPlayerExplosion.muted = true
+    audioPlayerBarrier.muted = true
     musicButton.textContent = 'UNMUTE'
   } else if (!muted) {
     audioPlayerMusic.muted = false
     audioPlayerShoot.muted = false
     audioPlayerAlienHit.muted = false
     audioPlayerExplosion.muted = false
+    audioPlayerBarrier.muted = false
     audioPlayerMusic.play()
     musicButton.textContent = 'MUTE'
   }

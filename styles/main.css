@@ -159,6 +159,25 @@ body {
   background-size: cover;
 }
 
-#result-display {
+#result-display, figcaption {
   text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue;
+}
+
+.footer {
+display: flex;
+flex-direction: row;
+justify-content: center;
+height: 100px;
+}
+
+figure {
+  display: flex;
+}
+
+#left-button, #right-button, #space-button {
+  height: 50px;
+}
+
+.button-wrap {
+  margin: 10px;
 }
