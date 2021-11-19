@@ -35,10 +35,10 @@ body {
   background-repeat: no-repeat;
   height: 64px;
   width: 80px;
-  margin: 120px 0px 0px;
   color: red;
   font-weight: bold;
-  border: 1px solid yellow
+  border: 1px solid yellow;
+  margin: 10px 0px 0px;
 }
 
 #music-toggle:hover {
@@ -78,7 +78,7 @@ body {
 }
 
 
-.controls-wrapper {
+#controls-wrapper {
   height: 10vh;
   display: flex;
   justify-content: space-evenly;
@@ -86,10 +86,14 @@ body {
   color: white;
 }
 
+#controls-wrapper.hidden {
+  display: none;
+}
+
 .grid-wrapper {
-  height: 90vh;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   padding: 0px 50px;
 }
 
@@ -153,4 +157,8 @@ body {
   background-image: url('../assets/row-1-column-3.png');
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+#result-display {
+  text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue;
 }

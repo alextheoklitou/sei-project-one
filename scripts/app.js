@@ -8,6 +8,7 @@ const livesDisplay = document.querySelector('#lives-display')
 const livesTracker = document.querySelector('#livesboard')
 const levelDisplay = document.querySelector('#level-display')
 const levelTracker = document.querySelector('#levelboard')
+const controlsWrapper = document.querySelector('#controls-wrapper')
 const result = document.querySelector('#result')
 const resultDisplay = document.querySelector('#result-display')
 const audioPlayerShoot = document.querySelector('#audio-shoot')
@@ -18,11 +19,14 @@ const playAgain = document.querySelector('#reload')
 const levelUpButton = document.querySelector('#level-up')
 const musicButton = document.querySelector('#music-toggle')
 const reloadButton = document.querySelector('#reload')
+const audioPlayerBarrier = document.querySelector('#audio-barrier-break')
 audioPlayerMusic.src = '../assets/everythingisawesome.mp3'
-audioPlayerShoot.src = '..assets/LEGO_CREAK1.WAV'
+audioPlayerShoot.src = '../assets/LEGO_CLICKS5.WAV'
 audioPlayerAlienHit.src = '../assets/LEGO_DEBRISSML1.WAV'
 audioPlayerExplosion.src = '../assets/LEGO_HITIMPACTSML4.WAV'
+audioPlayerBarrier.src = '../assets/LEGO_FALLAPART1.WAV'
 audioPlayerMusic.volume = 0.1
+
 // * Game Variables
 
 const width = 19
@@ -48,6 +52,7 @@ audioPlayerMusic.muted = true
 audioPlayerShoot.muted = true
 audioPlayerAlienHit.muted = true
 audioPlayerExplosion.muted = true
+audioPlayerMusic.loop = true
 
 // * Level Up Variables
 let level = 1
@@ -107,8 +112,8 @@ function moveAliens () {
 
 function playerShoot (e) {
   if(e.keyCode === 32 && gameOn) {
-    audioPlayerShoot.play()
     e.preventDefault()
+    audioPlayerShoot.play()
     let bulletPosition = playerPosition - 19
     const playerBulletMoving = window.setInterval(() => {
       const y = Math.floor(bulletPosition / width)
@@ -157,14 +162,17 @@ function alienShoot () {
     } else if (y === 18) {
       cells[bombPosition].classList.remove('bomb')
     } else if (cells[bombPosition].classList.contains('barrier1')) {
+      audioPlayerBarrier.play()
       cells[bombPosition].classList.remove('barrier1')
       cells[bombPosition].classList.remove('bomb')
       clearInterval(bombMovement)
     } else if (cells[bombPosition].classList.contains('barrier2')) {
+      audioPlayerBarrier.play()
       cells[bombPosition].classList.remove('barrier2')
       cells[bombPosition].classList.remove('bomb')
       clearInterval(bombMovement)
     } else if (cells[bombPosition].classList.contains('barrier3')) {
+      audioPlayerBarrier.play()
       cells[bombPosition].classList.remove('barrier3')
       cells[bombPosition].classList.remove('bomb')
       clearInterval(bombMovement)
@@ -201,6 +209,7 @@ function startGame() {
   start.classList.add('hidden')
   grid.classList.remove('hidden')
   grid.classList.add('grid')
+  controlsWrapper.classList.remove('hidden')
   scoreboard.classList.remove('hidden')
   livesTracker.classList.remove('hidden')
   levelTracker.classList.remove('hidden')
@@ -231,13 +240,13 @@ function endGameChecker () {
       y = Math.floor(alien / width)
     })
     if (lives === 0) {
-      endGame(`You lose! Your final score is ${score}!`)
+      endGame(`You lose! You reached level ${level} and your final score is ${score}!`)
       return
     } else if (aliens.length === 0) {
       levelCompleted(`You have completed level ${level}! Your current score is ${score}!`)
       return
     } else if (y === 18) {
-      endGame(`You lose! Your final score is ${score}!`)
+      endGame(`You lose! You reached level ${level} and your final score is ${score}!`)
       return
     }
   }, 100)
