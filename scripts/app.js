@@ -381,6 +381,7 @@ function reset() {
   scoreDisplay.textContent = score
   alienMoveTracker = 4
   playerPosition = 332
+  level = 1
   startGame()
 }
 
