@@ -73,3 +73,14 @@ I started out by separating the project into stages with deadlines:
     * Play again button to reset game once player loses
 
 ## Stage 1 ##
+### Creating the Grid
+The first thing I worked on was creating the grid for the game to run on. I opted for 19 x 19 grid and I used DOM manipulation to push the cells into an empty ```div```. The below function was used:
+```js
+function createGrid() {
+  for (let i = 0; i < gridCellCount; i++) {
+    const cell = document.createElement('div')
+    cell.setAttribute('data-index', i)
+    cells.push(cell)
+    grid.appendChild(cell)
+  }
+} ```
