@@ -45,7 +45,30 @@ The first thing I did was create the wireframe using Excalidraw:
 ![Excalidraw screenshot](/assets/project1excalidraw.png)
 ### Planning Stages ###
 I started out by separating the project into stages with deadlines:
-* Stage 1 lasted one day and involved the following:
-  * Finishing the project plan
-  * Witing the HTML and basic CSS for the project
-  * Creating the Grid
+* Stage 1 - Basic Elements Created
+  * Duration: 1 day
+  * Tasks:
+    * Finishing the project plan
+    * Adding elements to the page
+* Stage 2 - MVP
+  * Duration: 2 days
+  * Tasks:
+    * Create functions for player and alien movement
+    * Create functions for player and alien shooting
+    * Create functions for interaction of shooting lego pieces with aliens and player
+* Stage 3 - CSS
+  * Duration: 1 day
+  * Tasks:
+    * Work on CSS adding Lego sprites
+* Stage 4 - Bugs and Sound
+  * Duration: 1 day
+  * Tasks:
+    * Fix any pending bugs
+    * Add sound effects and background music
+* Stage 5 - Stretch Goals
+  * Tasks:
+    * Add starting page with instructions
+    * Introduce levels
+    * Play again button to reset game once player loses
+
+
