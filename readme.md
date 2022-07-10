@@ -34,7 +34,7 @@ The brief was to create a grid-based game chosen from a list of options over a w
 ### Additional Features I Added ###
 * Levels with increasing level of difficulty
 * Sound effects and background music which can be muted
-* Barriers
+* Shields
 
 ## Deployed Version ##
 [Play the deployed version of the game](https://alextheoklitou.github.io/sei-project-one/)
@@ -71,6 +71,7 @@ I started out by separating the project into stages with deadlines:
     * Add starting page with instructions
     * Introduce levels
     * Play again button to reset game once player loses
+    * Add shields
 
 ## Stage 1 ##
 ### Creating the Grid
@@ -84,3 +85,5 @@ function createGrid() {
     grid.appendChild(cell)
   }
 }
+```
+### Adding the Aliens ###
