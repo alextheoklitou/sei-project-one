@@ -66,9 +66,10 @@ I started out by separating the project into stages with deadlines:
     * Fix any pending bugs
     * Add sound effects and background music
 * Stage 5 - Stretch Goals
+  * Duration: 1 day
   * Tasks:
     * Add starting page with instructions
     * Introduce levels
     * Play again button to reset game once player loses
 
-
+## Stage 1 ##
