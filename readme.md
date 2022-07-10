@@ -1,11 +1,10 @@
-# General Assembly Software Engineering Immersive Project 1 - Space Invaders #
-![picture alt](/assets/spaceInvaders.png "Screenshot of space invaders game")
+# Project 1 - Space Invaders #
 
 ## Overview ##
 This was the first project as part of the General Assembly Software Engineering Immersive Course. I chose to create an adaptation of the classic arcade game 'Space Invaders'.
 
 ## Brief ##
-The brief was to create a grid-based game chosen from a list of options.
+The brief was to create a grid-based game chosen from a list of options over a week.
 ### Technical Requirements ###
 * **Render a game in the browser**
 * **Design logic for winning** & **visually display which player won**
@@ -40,3 +39,13 @@ The brief was to create a grid-based game chosen from a list of options.
 ## Deployed Version ##
 [Play the deployed version of the game](https://alextheoklitou.github.io/sei-project-one/)
 ![Screen Grab of finished version](/assets/spaceInvaders.gif)
+
+## Planning ##
+The first thing I did was create the wireframe using Excalidraw:
+![Excalidraw screenshot](/assets/project1excalidraw.png)
+### Planning Stages ###
+I started out by separating the project into stages with deadlines:
+* Stage 1 lasted one day and involved the following:
+  * Finishing the project plan
+  * Witing the HTML and basic CSS for the project
+  * Creating the Grid
