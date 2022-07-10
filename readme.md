@@ -32,7 +32,7 @@ The brief was to create a grid-based game chosen from a list of options.
 ### Main Requirements ###
 * The player should be able to clear at least one wave of aliens
 * The player's score should be displayed at the end of the game
-## Additional Features I Added ###
+### Additional Features I Added ###
 * Levels with increasing level of difficulty
 * Sound effects and background music which can be muted
 * Barriers
