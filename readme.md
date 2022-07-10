@@ -89,6 +89,7 @@ function createGrid() {
 ### Adding the Aliens ###
 Next up was adding the aliens to the grid. To immitage the 'block-like' look of Lego, I decided to just add colour to cells to create the original Space Invader alien shape. As all my cells were numbered, I had to work out what number cells needed to have the class of 'alien'. Below is my Excalidraw of working this out:
 ![Excalidraw screenshot](/assets/grid.png)
+
 Using an array with the numbers of these cells, I was able to use a ```forEach``` function to create the aliens as shown below:
 ```js
 function addAliens() {
