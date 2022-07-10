@@ -43,7 +43,7 @@ The brief was to create a grid-based game chosen from a list of options over a w
 ## Planning ##
 The first thing I did was create the wireframe using Excalidraw:
 ![Excalidraw screenshot](/assets/project1excalidraw.png)
-### Planning Stages ###
+### Project Stages ###
 I started out by separating the project into stages with deadlines:
 * Stage 1 - Basic Elements Created
   * Duration: 1 day
@@ -87,3 +87,21 @@ function createGrid() {
 }
 ```
 ### Adding the Aliens ###
+Next up was adding the aliens to the grid. To immitage the 'block-like' look of Lego, I decided to just add colour to cells to create the original Space Invader alien shape. As all my cells were numbered, I had to work out what number cells needed to have the class of 'alien'. Below is my Excalidraw of working this out:
+![Excalidraw screenshot](/assets/grid.png)
+Using an array with the numbers of these cells, I was able to use a ```forEach``` function to create the aliens as shown below:
+```js
+function addAliens() {
+  aliens.forEach(alien => {
+    cells[alien].classList.add('alien')
+  })
+}
+```
+
+### Adding the Player ###
+In a similar way of adding the aliens, I added the class of 'player' to the player starting position using this function:
+```js
+function addPlayer(position) {
+  cells[position].classList.add('player')
+}
+```
