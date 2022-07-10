@@ -13,7 +13,7 @@ The brief was to create a grid-based game chosen from a list of options over a w
 * Use **Javascript** for **DOM manipulation**
 * **Deploy your game online**, where the rest of the world can access it
 * Use **semantic markup** for HTML and CSS (adhere to best practices)
-### Necessary Deliverables ###
+### Required Deliverables ###
 * A **working game, built by you**, hosted somewhere on the internet
 * A **link to your hosted working game** in the URL section of your Github repo
 * A **git repository hosted on Github**, with a link to your hosted game, and frequent commits dating back to the very beginning of the project
@@ -38,6 +38,7 @@ The brief was to create a grid-based game chosen from a list of options over a w
 
 ## Deployed Version ##
 [Play the deployed version of the game](https://alextheoklitou.github.io/sei-project-one/)
+
 ![Screen Grab of finished version](/assets/spaceInvaders.gif)
 
 ## Planning ##
@@ -88,6 +89,7 @@ function createGrid() {
 ```
 ### Adding the Aliens ###
 Next up was adding the aliens to the grid. To immitage the 'block-like' look of Lego, I decided to just add colour to cells to create the original Space Invader alien shape. As all my cells were numbered, I had to work out what number cells needed to have the class of 'alien'. Below is my Excalidraw of working this out:
+
 ![Excalidraw screenshot](/assets/grid.png)
 
 Using an array with the numbers of these cells, I was able to use a ```forEach``` function to create the aliens as shown below:
@@ -104,5 +106,67 @@ In a similar way of adding the aliens, I added the class of 'player' to the play
 ```js
 function addPlayer(position) {
   cells[position].classList.add('player')
+}
+```
+
+## Stage 2 ##
+### Player and Alien Movement ###
+The player and the aliens move in a similar way with one main difference, the player is controlled by the keyboard whereas the aliens are controlled by a set timer.
+
+For all movable objects there were three functions needed:
+* Add player/alien
+* Remove player/alien
+* Move player/alien
+
+The 'Add' and 'Remove' functions were both controlled by the 'Move' function. The object would first be removed, it's position changed in the appropriate array and then added again in the new position.
+
+I tackled the player movement first using a 'keyup' event listener which triggered the below function:
+```js
+function handleKeyUp(e) {
+  const x = playerPosition % width
+  removePlayer()
+  switch(e.code) {
+    case 'ArrowRight':
+      if (x < width - 1) {
+        playerPosition++
+      }
+      break
+    case 'ArrowLeft':
+      if (x > 0) {
+        playerPosition--
+      }
+      break
+    default:
+      console.log('Invalid Key, do nothing')
+  }
+  if (gameOn) {
+    addPlayer(playerPosition)
+  } else {
+    console.log('game hasn\'t started yet')
+  }
+}
+```
+
+For the alien movement, the biggest challenge was creating a function that was able to not only switch from left to right when the aliens reached the border, but also move a row down every time the aliens switched direction.
+
+I was able to achieve this by using a 'movement tracker' variable, which would track how many times the aliens moved. Once the tracker reached 8, a boolean called 'aliensMovingRight' was flipped, the tracker was reset to 0 and the width of the grid was added to all alien cell numbers in the array and this can be seen in the function below:
+```js
+function moveAliens () {
+  aliensMoving = window.setInterval(() => {
+    removeAliens()
+    if (alienMoveTracker < 8) {
+      if (aliensMovingRight) {
+        aliens = aliens.map(alien => alien + 1)
+      } else {
+        aliens = aliens.map(alien => alien - 1)
+      }
+      alienMoveTracker++
+    } else if (alienMoveTracker === 8) {
+      alienMoveTracker = 0
+      aliens = aliens.map(alien => alien + width)
+      aliensMovingRight = !aliensMovingRight
+    }
+    addAliens()
+  }, aliensMovingInterval)
 }
 ```
