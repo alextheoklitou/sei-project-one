@@ -36,3 +36,7 @@ The brief was to create a grid-based game chosen from a list of options.
 * Levels with increasing level of difficulty
 * Sound effects and background music which can be muted
 * Barriers
+
+## Deployed Version ##
+[Play the deployed version of the game](https://alextheoklitou.github.io/sei-project-one/)
+![Screen Grab of finished version](/assets/spaceInvaders.gif)
