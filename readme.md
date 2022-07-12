@@ -1,7 +1,7 @@
 # Project 1 - Space Invaders #
 
 ## Overview ##
-This was the first project as part of the General Assembly Software Engineering Immersive Course. I chose to create an adaptation of the classic arcade game 'Space Invaders'.
+This was the first project as part of the General Assembly Software Engineering Immersive Course. This was a solo project which lasted one week. I chose to create an adaptation of the classic arcade game 'Space Invaders'.
 
 ## Brief ##
 The brief was to create a grid-based game chosen from a list of options over a week.
