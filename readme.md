@@ -56,7 +56,8 @@ I started out by separating the project into stages with deadlines:
   * Tasks:
     * Create functions for player and alien movement
     * Create functions for player and alien shooting
-    * Create functions for interaction of shooting lego pieces with aliens and player
+    * Create functions for collisions
+    * Winning or Losing
 * Stage 3 - CSS
   * Duration: 1 day
   * Tasks:
@@ -72,7 +73,6 @@ I started out by separating the project into stages with deadlines:
     * Add starting page with instructions
     * Introduce levels
     * Play again button to reset game once player loses
-    * Add shields
 
 ## Stage 1 ##
 ### Creating the Grid
@@ -127,7 +127,7 @@ function handleKeyUp(e) {
   removePlayer()
   switch(e.code) {
     case 'ArrowRight':
-      if (x < width - 1) {
+      if (x < width - 1) {`
         playerPosition++
       }
       break
@@ -170,3 +170,150 @@ function moveAliens () {
   }, aliensMovingInterval)
 }
 ```
+### Player and Aliens Shooting and Collisions
+The player shooting and the aliens dropping bombs were both quite similar functions, the former triggered by the space key being pressed and the latter on a set interval. The lego piece would then move either upward or downward, depending on whether its an alien bomb or a player shotting, on a nested set interval which would remove the piece from its current cell, change the cell position and add the piece to the new cell, similar to how the player and aliens move.
+
+One of the most challenging aspects of creating this game were the collisions. Once a lego piece is released, there are three options that could happen:
+1. The player or an alien is hit and needs to either take damage or be removed
+2. One of the shields is hit and needs to be removed
+3. The lego piece makes it all the way to the edge of the grid without hitting anything
+
+Nested within each shooting function, I added a series of if statements which where checked every 100 miliseconds as shown below:
+```js
+function alienShoot () {
+  const bombs = aliens[Math.floor(Math.random() * aliens.length)]
+  let bombPosition = bombs + 19
+  const bombMovement = window.setInterval(() => {
+    const y = Math.floor(bombPosition / width)
+    if (cells[bombPosition].classList.contains('player')) {
+      audioPlayerExplosion.play()
+      cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
+      lives--
+      livesDisplay.textContent = lives
+    } else if (y === 18) {
+      cells[bombPosition].classList.remove('bomb')
+    } else if (cells[bombPosition].classList.contains('barrier1')) {
+      audioPlayerBarrier.play()
+      cells[bombPosition].classList.remove('barrier1')
+      cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
+    } else if (cells[bombPosition].classList.contains('barrier2')) {
+      audioPlayerBarrier.play()
+      cells[bombPosition].classList.remove('barrier2')
+      cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
+    } else if (cells[bombPosition].classList.contains('barrier3')) {
+      audioPlayerBarrier.play()
+      cells[bombPosition].classList.remove('barrier3')
+      cells[bombPosition].classList.remove('bomb')
+      clearInterval(bombMovement)
+    } else {
+      cells[bombPosition].classList.remove('bomb')
+      bombPosition = bombPosition + 19
+      cells[bombPosition].classList.add('bomb')
+    }
+  }, aliensBombSpeed)
+}
+```
+The playerShoot function's main difference is what happens if an alien is hit. Instead of the life count being reduced, the class of 'alien' is removed from that cell.
+
+### Winning or Losing
+The last part of Stage 2 was creating a function to check whether the player has won or lost. I achieved this by creating a function which constantly runs in the background and checks a few things:
+1. Whether the players lives have reached 0
+2. Whether the aliens have reached the bottom of the grid
+3. Whether all the aliens have been killed
+
+If either of the first two things happened, then the player lost and it would trigger the 'endGame' function which removes the grid and all its contents, displays a losing message as well as the final score and asks the player whether they want to play again.
+
+If all the aliens are killed then the player has completed that level which triggers the 'levelCompleted' function and asks the player whether they would like to attempt the next level.
+
+At the end of this stage I had reached my MVP and all stages from here onward were purely for aesthetics and improvements.
+
+## Stage 3
+Stage 3 of the project was all about look and design. I focused on primary colours and used the original Lego font to give the game a very clean and fun look. I used CSS and I sourced Lego sprites from the internet for this.
+
+## Stage 4
+### Bug Fixes
+Some of bugs and challenges I had at this stage were:
+* Default keyboard behaviours affecting gameplay, specifically the space key. I was able to overcome this by using ```preventDefault```
+* The player appearing before the game had started if a key was pressed. I ended up having to create a ```gameOn``` boolean variable which was flipped to true once the game starts and using that I added an If statement within my key handling function which would only work if the ```gameOn``` was a truthy value
+* A bug caused my Lego pieces to freeze instead of disappear when an alien was hit. I played around with clearing the interval of the Lego piece moving at different stages of the collision until this was resolved
+
+### Sound Effects and Music
+At this stage I was also able to add some sound effects when the player shoots, the aliens drop Lego pieces and any collisions happen. I ended up having to use multiple audio players in my HTML as more than one of those sounds might need to play at the same time.
+
+For the background music I chose the theme song from the Lego Movie, 'Everything Is Awesome' and chose to have the music and all the sound effects start off as muted with the player being able to toggle all sounds with a single button.
+
+## Stage 5
+### Stretch Goals
+The final stage of my project was all about additional features and stretch goals:
+#### Start Page
+I focused on creating a start page with game instructions and a start button to start the game. I created a ```startGame``` function which triggered all functions that would start the game such as creating the grid, adding all the elements and triggering the ```endGameChecker``` function.
+#### Levels
+I was also able to introduce levels to my game which I found relatively easy, making this a huge win for me. Because of how I'd built my alien intervals (movement and Lego pieces dropping) with a variable rather than a number hard coded into the function, every time a level is completed the speed of these intervals is increased by a given percentage:
+```js
+function levelUp() {
+  level = level + 1
+  aliensMovingInterval = aliensMovingInterval - (level * 15)
+  aliensBombSpeed = aliensBombSpeed - 5
+  alienBombInterval = alienBombInterval - (level * 40)
+  removePlayer()
+  result.classList.add('hidden')
+  scoreboard.classList.remove('hidden')
+  livesTracker.classList.remove('hidden')
+  levelTracker.classList.remove('hidden')
+  levelUpButton.classList.add('hidden')
+  aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
+  aliensMovingRight = true
+  playerBulletMoving = null
+  aliensMoving = null
+  bombMovement = null
+  bombsDroppingTimer = null
+  endGameCheckerTimer = null
+  alienMoveTracker = 4
+  playerPosition = 332
+  startGame()
+  levelDisplay.textContent = level
+}
+```
+#### Play Again Function
+This was a more challenging function to add because of how many different intervals had to be cleared and different values had to be reset but I was able to with a single function give the player the option to play again once they lost, without having to refresh the page:
+```js
+function reset() {
+  removePlayer()
+  result.classList.add('hidden')
+  reloadButton.classList.add('hidden')
+  scoreboard.classList.remove('hidden')
+  livesTracker.classList.remove('hidden')
+  levelTracker.classList.remove('hidden')
+  aliens = [25, 31, 45, 49, 63, 64, 65, 66, 67, 68, 69, 81, 82, 84, 85, 86, 88, 89, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 118, 120, 121, 122, 123, 124, 125, 126, 128, 137, 139, 145, 147, 159, 160, 162, 163]
+  aliensMovingRight = true
+  playerBulletMoving = null
+  aliensMoving = null
+  bombMovement = null
+  bombsDroppingTimer = null
+  endGameCheckerTimer = null
+  lives = 3
+  livesDisplay.textContent = lives
+  score = 0
+  scoreDisplay.textContent = score
+  alienMoveTracker = 4
+  playerPosition = 332
+  level = 1
+  startGame()
+}
+```
+
+## Key Learning
+I learned a lot from this being my very first project. Some of the main things I will take with me into my career are:
+* How useful creating a structured, yet flexible plan is
+* The importance of storing values in variables rather than hard coding them into functions. This is what enabled me to easily create levels
+* Having clear, consistent and DRY code
+* Having a CSS day in the middle of the project really helped clear and reset my mind and I was able to really focus on what needed to be done with a rested brain the day after
+
+## Future Improvements
+* High Scores leaderboard using Local Storage
+* Mothership
+* Responsive design
+* Different alien structure for each level
