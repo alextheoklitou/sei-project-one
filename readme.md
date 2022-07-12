@@ -305,7 +305,7 @@ function reset() {
 }
 ```
 
-## Key Learning
+## Key Learnings
 I learned a lot from this being my very first project. Some of the main things I will take with me into my career are:
 * How useful creating a structured, yet flexible plan is
 * The importance of storing values in variables rather than hard coding them into functions. This is what enabled me to easily create levels
